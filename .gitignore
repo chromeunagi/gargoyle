@@ -1,0 +1,15 @@
+# OS files
+.DS_Store
+
+# Frigate specific bypasses
+frigate/storage/
+frigate/double-take/
+frigate/config/model_cache/
+frigate/mosquitto/data/
+frigate/mosquitto/log/
+frigate/.env
+
+# Frigate SQLite Databases
+frigate/config/*.db
+frigate/config/*.db-shm
+frigate/config/*.db-wal

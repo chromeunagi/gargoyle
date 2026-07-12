@@ -1,0 +1,24 @@
+mqtt:
+  enabled: false
+
+detectors:
+  apple_silicon:
+    type: zmq
+    endpoint: tcp://host.docker.internal:5555
+
+model:
+  path: yolo.onnx
+  model_type: yolo-generic
+  width: 320
+  height: 320
+  input_tensor: nchw
+  input_dtype: float
+
+cameras:
+  test_camera:
+    ffmpeg:
+      inputs:
+        - path: /media/frigate/test_video.mp4
+          input_args: -re -stream_loop -1 -fflags +genpts
+          roles:
+            - detect

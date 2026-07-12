@@ -1,0 +1,50 @@
+version: 0.17-0
+
+mqtt:
+  enabled: false
+
+detectors:
+  apple_silicon:
+    type: zmq
+    endpoint: tcp://host.docker.internal:5555
+
+model:
+  path: /config/model_cache/yolo.onnx
+  model_type: yolo-generic
+  width: 320
+  height: 320
+  input_tensor: nchw
+  input_dtype: float
+
+objects:
+  track:
+    - person
+    - car
+    - dog
+
+record:
+  enabled: true
+
+# 1. Pull the raw streams from the Reolink Hub using go2rtc
+go2rtc:
+  streams:
+    # The high-res stream (main) for saving crisp video clips
+    cam1_main:
+      - "ffmpeg:http://192.168.1.234/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password={REOLINK_PASSWORD}#video=copy#audio=copy"
+    # The low-res stream (ext) for the Neural Engine to analyze lightning-fast
+    cam1_sub:
+      - "ffmpeg:http://192.168.1.234/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password={REOLINK_PASSWORD}"
+
+# 2. Tell Frigate what to do with those streams
+cameras:
+  front_yard:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/cam1_main
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/cam1_sub
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
