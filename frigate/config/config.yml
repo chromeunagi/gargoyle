@@ -25,17 +25,13 @@ objects:
 record:
   enabled: true
 
-# 1. Pull the raw streams from the Reolink Hub using go2rtc
 go2rtc:
   streams:
-    # The high-res stream (main) for saving crisp video clips
     cam1_main:
-      - "ffmpeg:http://192.168.1.234/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password={REOLINK_PASSWORD}#video=copy#audio=copy"
-    # The low-res stream (ext) for the Neural Engine to analyze lightning-fast
+      - "ffmpeg:http://192.168.1.234/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy"
     cam1_sub:
-      - "ffmpeg:http://192.168.1.234/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password={REOLINK_PASSWORD}"
+      - "ffmpeg:http://192.168.1.234/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password={FRIGATE_REOLINK_PASSWORD}"
 
-# 2. Tell Frigate what to do with those streams
 cameras:
   front_yard:
     ffmpeg:
