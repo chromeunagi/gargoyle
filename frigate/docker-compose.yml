@@ -17,3 +17,32 @@ services:
       - ./storage:/media/frigate
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    depends_on:
+      - mqtt
+
+  mqtt:
+    container_name: mqtt
+    image: eclipse-mosquitto:2
+    ports:
+      - "1883:1883"
+    command: sh -c "echo 'listener 1883' > /mosquitto/config/mosquitto.conf && echo 'allow_anonymous true' >> /mosquitto/config/mosquitto.conf && mosquitto -c /mosquitto/config/mosquitto.conf"
+
+  codeproject-ai:
+    container_name: codeproject-ai
+    image: codeproject/ai-server:arm64
+    restart: unless-stopped
+    ports:
+      - "32168:32168"
+
+  double-take:
+    container_name: double-take
+    image: jakowenko/double-take:latest
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./double-take:/.storage
+    depends_on:
+      - mqtt
+      - codeproject-ai
+      - frigate

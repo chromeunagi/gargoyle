@@ -1,7 +1,9 @@
 version: 0.17-0
 
 mqtt:
-  enabled: false
+  enabled: true
+  host: mqtt
+  port: 1883
 
 detectors:
   apple_silicon:
