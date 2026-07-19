@@ -30,12 +30,12 @@ record:
 go2rtc:
   streams:
     cam1_main:
-      - "ffmpeg:http://192.168.1.234/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy"
+      - ffmpeg:http://192.168.1.234/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy
     cam1_sub:
-      - "ffmpeg:http://192.168.1.234/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password={FRIGATE_REOLINK_PASSWORD}"
+      - ffmpeg:http://192.168.1.234/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password={FRIGATE_REOLINK_PASSWORD}
 
 cameras:
-  front_yard:
+  driveway:
     ffmpeg:
       inputs:
         - path: rtsp://127.0.0.1:8554/cam1_main
@@ -46,3 +46,12 @@ cameras:
           input_args: preset-rtsp-restream
           roles:
             - detect
+    zones:
+      stairway:
+        coordinates: 0.577,0.294,0.862,0.833,0.994,0.287,0.996,0.023
+        loitering_time: 0
+        friendly_name: Stairway
+      drive:
+        coordinates: 0.525,0.243,0.224,0.724,0.265,0.991,0.846,1,0.854,0.838
+        loitering_time: 0
+        friendly_name: Drive
