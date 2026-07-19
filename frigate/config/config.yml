@@ -35,9 +35,9 @@ record:
 go2rtc:
   streams:
     cam1_main:
-      - ffmpeg:http://192.168.1.234/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password={FRIGATE_REOLINK_PASSWORD}#video=copy#audio=copy
+      - rtsp://admin:{FRIGATE_REOLINK_PASSWORD}@192.168.1.234:554/h264Preview_01_main
     cam1_sub:
-      - ffmpeg:http://192.168.1.234/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password={FRIGATE_REOLINK_PASSWORD}
+      - rtsp://admin:{FRIGATE_REOLINK_PASSWORD}@192.168.1.234:554/h264Preview_01_sub
 
 cameras:
   driveway:
@@ -53,10 +53,14 @@ cameras:
             - detect
     zones:
       stairway:
-        coordinates: 0.577,0.294,0.862,0.833,0.994,0.287,0.996,0.023
+        coordinates: 0.567,0.294,0.866,0.834,0.998,0.288,1,0.024,0.606,0.097
         loitering_time: 0
         friendly_name: Stairway
+        inertia: 3
       drive:
         coordinates: 0.525,0.243,0.224,0.724,0.265,0.991,0.846,1,0.854,0.838
         loitering_time: 0
         friendly_name: Drive
+    motion:
+      mask: 
+        0.155,0.334,0.37,0.261,0.42,0.466,0.429,0.659,0.251,0.891,0.145,0.776,0.099,0.624,0.101,0.462
